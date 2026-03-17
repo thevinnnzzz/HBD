@@ -3,6 +3,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const body = document.getElementById('bday-body');
   const bdayAudio = document.getElementById('bday-audio');
 
+  /* ── MOBILE CAKE SCALE ── */
+  function scaleCake() {
+    if (window.innerWidth < 600) {
+      const scaler = document.getElementById('cake-scaler');
+      const cake   = scaler ? scaler.querySelector('.cake') : null;
+      if (!cake) return;
+      const available = window.innerWidth * 0.9;
+      const scale = Math.min(available / 300, 1);
+      cake.style.setProperty('--cake-scale', scale);
+      cake.style.transform = `scale(${scale})`;
+      // Keep the scaler height in sync so it doesn't collapse
+      scaler.style.height = Math.round(300 * scale) + 'px';
+    }
+  }
+  scaleCake();
+  window.addEventListener('resize', scaleCake);
+
   /* ── STARS ── */
   const starsEl = document.getElementById('stars');
   for (let i = 0; i < 120; i++) {
@@ -18,8 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
     starsEl.appendChild(s);
   }
 
-  /* ── BUTTON CLICK ── */
-  blowBtn.addEventListener('click', () => {
+  /* ── BUTTON CLICK / TAP ── */
+  function handleBlow() {
     if (body.classList.contains('blown')) return;
     body.classList.add('blown');
 
@@ -38,7 +55,10 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(triggerFlowers, 600);
     setTimeout(triggerHearts, 800);
     setTimeout(() => triggerSparkles(30), 300);
-  });
+  }
+
+  blowBtn.addEventListener('click', handleBlow);
+  blowBtn.addEventListener('touchstart', (e) => { e.preventDefault(); handleBlow(); }, { passive: false });
 
   /* ── CONFETTI (original + enhanced) ── */
   function triggerConfetti() {
