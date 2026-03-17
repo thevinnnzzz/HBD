@@ -6,8 +6,9 @@ body {
   right: 0;
   background: #443850;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  align-content: center;
   overflow: hidden;
 }
 .cake: {
@@ -396,4 +397,136 @@ body.blown .candle:before {
 @keyframes ringExpand {
   0%   { opacity: .9; transform: scale(0); }
   100% { opacity: 0;  transform: scale(4); }
+}
+
+/* ── MOBILE RESPONSIVE ── */
+
+/*
+ * The cake is built with fixed px values (300px wide, absolute children).
+ * We preserve its design exactly and use CSS scale() to shrink it on small screens.
+ * A .cake-scaler wrapper handles the transform so layout still flows correctly.
+ */
+.cake-scaler {
+  display: flex;
+  justify-content: center;
+  /* default: no scaling needed on desktop */
+  transform-origin: top center;
+}
+
+.cake {
+  /* keep original top offset but let the scaler handle centering */
+  flex-shrink: 0;
+}
+
+/* Top message: switch from absolute to static flow on mobile */
+.top-msg {
+  position: relative;
+  top: auto;
+  margin-bottom: 12px;
+  padding: 0 12px;
+}
+
+/* Main message: switch from absolute to static flow */
+.msg {
+  position: relative;
+  top: auto;
+  margin-top: 16px;
+  padding: 0 16px;
+}
+
+/* Button: always at bottom of flex column */
+.controls {
+  position: relative;
+  bottom: auto;
+  margin-top: 20px;
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+}
+
+/* On larger screens restore the original absolute layout */
+@media (min-width: 600px) and (min-height: 700px) {
+  body {
+    display: block; /* revert to original absolute layout */
+  }
+  .top-msg {
+    position: absolute;
+    top: 30px;
+    margin-bottom: 0;
+  }
+  .cake-scaler {
+    position: relative;
+    top: 0;
+    transform: none !important;
+  }
+  .cake {
+    position: relative;
+    top: 110px;
+    margin: 0 auto;
+  }
+  .msg {
+    position: absolute;
+    top: calc(200px + 300px);
+    margin-top: 0;
+  }
+  .controls {
+    position: absolute;
+    bottom: 50px;
+  }
+}
+
+/* Scale the cake down on narrow screens */
+@media (max-width: 599px) {
+  body {
+    justify-content: flex-start;
+    padding-top: max(env(safe-area-inset-top, 0px), 8px);
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 8px);
+  }
+
+  .top-msg {
+    font-size: clamp(1.2rem, 6vw, 1.8rem);
+    margin-bottom: 8px;
+  }
+
+  /* Scale cake to fit within 90vw */
+  .cake-scaler {
+    width: 90vw;
+    height: calc(90vw * (370 / 300));
+    max-height: 38vh;
+    overflow: visible;
+  }
+  .cake-scaler .cake {
+    transform-origin: top center;
+    /* JS sets --cake-scale on the scaler; fallback computed below */
+    transform: scale(var(--cake-scale, 0.8));
+    top: 0;
+    margin: 0;
+  }
+
+  .msg {
+    font-size: clamp(1.4rem, 7vw, 2.2rem);
+    margin-top: 8px;
+  }
+  .msg-sub {
+    font-size: clamp(0.85rem, 3.5vw, 1.1rem);
+    margin-top: 8px;
+  }
+
+  #blow-btn {
+    font-size: clamp(1rem, 4.5vw, 1.4rem);
+    padding: 12px 24px;
+  }
+
+  .controls {
+    margin-top: 12px;
+  }
+}
+
+/* Extra-short screens (landscape phone) */
+@media (max-height: 500px) {
+  .top-msg { display: none; }
+  .cake-scaler {
+    max-height: 44vh;
+  }
+  .msg { font-size: 1.1rem; }
+  .msg-sub { font-size: 0.8rem; }
+  .controls { margin-top: 6px; }
 }
