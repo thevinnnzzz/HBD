@@ -2,44 +2,128 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>HBD❤️ICA❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#443850">
+  <title>♟️ HBD Karen ♟️</title>
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
 </head>
-<body id="bday-body">
 
+<body id="bday-body">
   <div class="stars" id="stars"></div>
   <div class="aurora"></div>
 
-  <div class="top-msg">🎉 It's Your Special Day! 🎉</div>
+  <!-- =====================================================
+       CHESS PUZZLE GATE
+       ===================================================== -->
+  <section class="puzzle-screen" id="puzzle-screen">
+    <div class="puzzle-card">
+      <div class="chess-icon">♟️</div>
+      <p class="eyebrow">Birthday Challenge</p>
+      <h1>Okay Karen, one last game first. 😄</h1>
+      <p class="puzzle-intro">
+        You don't get the gift for free. 😆
+        Find the <strong>mate in 3</strong> and the surprise unlocks.
+      </p>
 
-  <div class="cake-scaler" id="cake-scaler">
-    <div class="cake">
-      <div class="plate"></div>
-      <div class="layer layer-1"></div>
-      <div class="layer layer-2"></div>
-      <div class="layer layer-3"></div>
-      <div class="layer layer-4"></div>
-      <div class="layer layer-top"></div>
-      <div class="layer layer-top-cream1"></div>
-      <div class="layer layer-top-cream2"></div>
-      <div class="layer candle"></div>
+      <div class="mission">
+        <span>♟</span>
+        <div>
+          <strong>White to move • Mate in 3</strong>
+          <small>Make the correct move. Black will reply automatically.</small>
+        </div>
+      </div>
+
+      <div class="move-counter" id="move-counter">White move 1 of 3</div>
+
+      <div class="board-wrap">
+        <div class="chess-board" id="chess-board" aria-label="Interactive chess board"></div>
+        <div class="board-coordinates">
+          <span>a</span><span>b</span><span>c</span><span>d</span>
+          <span>e</span><span>f</span><span>g</span><span>h</span>
+        </div>
+      </div>
+
+      <div class="puzzle-status" id="puzzle-status" aria-live="polite">
+        Find the first move. Tap a white piece, then tap its destination.
+      </div>
+
+      <div class="line-display" id="line-display" aria-live="polite">
+        <span class="move-empty">1. —</span>
+        <span class="move-empty">… —</span>
+        <span class="move-empty">2. —</span>
+        <span class="move-empty">… —</span>
+        <span class="move-empty">3. —</span>
+      </div>
+
+      <button class="reset-btn" id="reset-puzzle" type="button">↻ Reset Puzzle</button>
     </div>
-  </div>
+  </section>
 
-  <div class="msg">
-    Happy Birthday ICA!!!
-    <div class="msg-sub">Wishing you a day as wonderful as you are.<br>May your year be filled with joy, love &amp; cake! 🥳</div>
-  </div>
+  <!-- =====================================================
+       BIRTHDAY SCREEN
+       ===================================================== -->
+  <main class="birthday-screen" id="birthday-screen" aria-hidden="true">
+    <div class="top-msg">🎉 Happy Birthday, Karen! 🎉</div>
 
-  <div class="controls">
-    <button id="blow-btn">🎂 Blow out the candle!</button>
-  </div>
+    <div class="cake-scaler" id="cake-scaler">
+      <div class="cake">
+        <div class="plate"></div>
+        <div class="layer layer-1"></div>
+        <div class="layer layer-2"></div>
+        <div class="layer layer-3"></div>
+        <div class="layer layer-4"></div>
+        <div class="layer layer-top"></div>
+        <div class="layer layer-top-cream1"></div>
+        <div class="layer layer-top-cream2"></div>
+        <div class="cake-decor cake-decor-1">●</div>
+        <div class="cake-decor cake-decor-2">●</div>
+        <div class="cake-decor cake-decor-3">●</div>
+        <div class="layer candle"></div>
+      </div>
+    </div>
+
+    <section class="msg" id="birthday-message">
+      <div class="birthday-title">Happy Birthday, Karen! 🎂✨</div>
+
+      <div class="message-card">
+        <p>Happy birthday, Karen! 🎉</p>
+
+        <p>
+          Hope your day comes with good food, decent internet, and absolutely zero health issue. 😄
+        </p>
+
+        <p>
+          Thanks for the random chess games and Mobile Legends matches, including the games
+          where the plan was good for about "last g" and then everything went completely off-script. 😂
+        </p>
+
+        <p>
+          For this birthday, I wish you more wins, fewer blunders, less no internet connection, and teammates
+          who remember that mm and objectives exist. Your opponents can keep the chaos. 😭🎮
+        </p>
+
+        <p>
+          Also, yes, the puzzle was required. Think of it as the birthday entrance fee.
+          At least you didn't have to do three games of ranked first. ♟️
+        </p>
+
+        <p class="final-wish">
+          Enjoy your birthday, Karen! 🥳<br>
+          Have fun, eat something good, and make the most of your day.
+        </p>
+
+        <div class="signature">— Your online chess & ML buddy ♟️🎮</div>
+      </div>
+    </section>
+
+    <div class="controls">
+      <button id="blow-btn" type="button">🎂 Blow out the candle!</button>
+    </div>
+  </main>
 
   <audio id="bday-audio" src="happy-birthday.mp3" preload="auto"></audio>
 
   <script src="./script.js"></script>
 </body>
 </html>
-  
