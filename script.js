@@ -101,12 +101,17 @@ document.addEventListener("DOMContentLoaded", () => {
     if (locked) return;
 
     if (!isCorrect) {
+      locked = true;
       btn.classList.add('wrong');
-      gateFeedback.textContent = "❌ Not quite, Nurse Bea! Think it through and try again.";
+      gateFeedback.textContent = "❌ Oops, wrong answer! Back to question 1, Nurse Bea.";
       gateFeedback.className = 'gate-feedback bad';
       gateCard.classList.remove('shake');
       void gateCard.offsetWidth; // restart the shake animation
       gateCard.classList.add('shake');
+
+      // Wrong answer = start over from the first question
+      current = 0;
+      setTimeout(showQuestion, 1800);
       return;
     }
 
