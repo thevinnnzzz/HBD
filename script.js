@@ -62,6 +62,48 @@ document.addEventListener("DOMContentLoaded", () => {
       options: ["At least 20 seconds", "About 5 seconds", "Just until the soap foams", "10 seconds, tops"],
       answer: 0,
       rationale: "Hand hygiene is a nurse's best infection-control tool: at least 20 seconds!"
+    },
+    {
+      q: "What is the normal respiratory rate for a healthy adult at rest?",
+      options: ["12–20 breaths per minute", "25–35 breaths per minute", "6–10 breaths per minute", "40–50 breaths per minute"],
+      answer: 0,
+      rationale: "Normal adult respiratory rate is 12–20 breaths per minute."
+    },
+    {
+      q: "What is the normal body temperature range for a healthy adult?",
+      options: ["36.5–37.5 °C (about 97.7–99.5 °F)", "38.5–39.5 °C (about 101–103 °F)", "34.0–35.0 °C (about 93–95 °F)", "40.0–41.0 °C (about 104–106 °F)"],
+      answer: 0,
+      rationale: "Normal adult temperature is roughly 36.5–37.5 °C."
+    },
+    {
+      q: "Which blood pressure reading is considered normal for an adult?",
+      options: ["Less than 120/80 mmHg", "140/90 mmHg or higher", "90/40 mmHg or lower", "160/100 mmHg"],
+      answer: 0,
+      rationale: "Normal blood pressure is below 120/80 mmHg."
+    },
+    {
+      q: "What is a normal oxygen saturation (SpO₂) for a healthy adult?",
+      options: ["95–100%", "80–85%", "70–75%", "60–65%"],
+      answer: 0,
+      rationale: "A healthy adult's SpO₂ is typically 95–100%."
+    },
+    {
+      q: "Which position helps a patient in respiratory distress breathe more easily?",
+      options: ["High Fowler's position", "Supine (flat on the back)", "Trendelenburg position", "Prone position"],
+      answer: 0,
+      rationale: "High Fowler's (sitting upright) lets the lungs expand more fully."
+    },
+    {
+      q: "What is the recommended chest compression rate during adult CPR?",
+      options: ["100–120 per minute", "60–80 per minute", "140–160 per minute", "30–50 per minute"],
+      answer: 0,
+      rationale: "Adult CPR compressions should be done at 100–120 per minute."
+    },
+    {
+      q: "When prioritizing care using the ABCs, what comes first?",
+      options: ["Airway", "Circulation", "Comfort", "Documentation"],
+      answer: 0,
+      rationale: "ABCs: Airway, Breathing, Circulation. A blocked airway comes first."
     }
   ];
 
@@ -74,13 +116,28 @@ document.addEventListener("DOMContentLoaded", () => {
     return a;
   }
 
+  const QUESTIONS_PER_ROUND = 3;   // Bea only answers 3 at a time
+  let deck = [];                   // shuffled questions not used yet
+  let round = [];                  // the 3 questions for the current attempt
   let current = 0;
   let locked = false;
 
+  // Draw a fresh set of 3. Unused questions go first; when the deck runs low,
+  // it is refilled with a new shuffle of the remaining questions.
+  function newRound() {
+    if (deck.length < QUESTIONS_PER_ROUND) {
+      const leftovers = deck.slice();
+      const rest = shuffle(questions.filter(q => !leftovers.includes(q)));
+      deck = leftovers.concat(rest);
+    }
+    round = deck.splice(0, QUESTIONS_PER_ROUND);
+    current = 0;
+  }
+
   function showQuestion() {
-    const item = questions[current];
+    const item = round[current];
     locked = false;
-    gateProgress.textContent = `Question ${current + 1} of ${questions.length}`;
+    gateProgress.textContent = `Question ${current + 1} of ${round.length}`;
     gateQuestion.textContent = item.q;
     gateFeedback.textContent = '';
     gateFeedback.className = 'gate-feedback';
@@ -103,15 +160,17 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!isCorrect) {
       locked = true;
       btn.classList.add('wrong');
-      gateFeedback.textContent = "❌ Oops, wrong answer! Back to question 1, Nurse Bea.";
+      gateFeedback.textContent = "❌ Oops, wrong answer! Back to question 1 with new questions, Nurse Bea.";
       gateFeedback.className = 'gate-feedback bad';
       gateCard.classList.remove('shake');
       void gateCard.offsetWidth; // restart the shake animation
       gateCard.classList.add('shake');
 
-      // Wrong answer = start over from the first question
-      current = 0;
-      setTimeout(showQuestion, 1800);
+      // Wrong answer = start over with a brand-new set of 3 questions
+      setTimeout(() => {
+        newRound();
+        showQuestion();
+      }, 1800);
       return;
     }
 
@@ -122,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
     current++;
 
     setTimeout(() => {
-      if (current < questions.length) {
+      if (current < round.length) {
         showQuestion();
       } else {
         unlockSurprise();
@@ -142,7 +201,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1800);
   }
 
-  if (gate) showQuestion();
+  if (gate) {
+    newRound();
+    showQuestion();
+  }
 
 
   /* ── LETTER OPEN / CLOSE ── */
