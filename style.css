@@ -550,7 +550,7 @@ body.blown .candle:before {
   z-index: 500;
   display: flex;
   padding: max(env(safe-area-inset-top, 0px), 16px) 16px max(env(safe-area-inset-bottom, 0px), 16px);
-  background: radial-gradient(ellipse at top, rgba(142,85,114,.55), rgba(68,56,80,.97) 70%);
+  background: radial-gradient(ellipse at top, #6a4a69 0%, #443850 70%); /* fully opaque so nothing shows through */
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   transition: opacity .8s ease, visibility .8s ease;
@@ -568,12 +568,10 @@ body.blown .candle:before {
   text-align: center;
   color: #f2f7f2;
   font-family: 'Quicksand', "Comic Sans MS", Arial, sans-serif;
-  background: rgba(255,255,255,.08);
-  border: 2px solid rgba(255,209,102,.5);
+  background: #54426a; /* solid card, no glass effect */
+  border: 2px solid #ffd166;
   border-radius: 24px;
-  box-shadow: 0 10px 40px rgba(0,0,0,.4), 0 0 30px rgba(255,143,171,.25);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 10px 40px rgba(0,0,0,.45);
 }
 .gate-card.shake { animation: gateShake .45s; }
 @keyframes gateShake {
